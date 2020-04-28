@@ -6,6 +6,7 @@ module.exports = {
       name: req.body.name,
       detail: req.body.detail,
       price: req.body.price,
+      category: req.body.category,
       imageURL: req.file && req.file.path,
     })
       .then((response) => res.json(response))
@@ -16,19 +17,8 @@ module.exports = {
 
   getAllData: (req, res) => {
     MenuSchema.find({})
+      .populate("category")
       .then((response) => res.json(response))
       .catch((err) => err);
   },
-
-  // getDataById: (req, res) => {
-  //   MenuSchema.findById({})
-  //     .then((response) => res.json(response))
-  //     .catch((err) => err);
-  // },
-
-  // deleteById: (req, res, next) => {
-  //   MenuSchema.findByIdAndRemove({})
-  //     .then((response) => res.json(response))
-  //     .catch((err) => err);
-  // },
 };

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Category = require("./Category");
 
 const newMenuSchema = new Schema({
   name: {
@@ -13,6 +14,10 @@ const newMenuSchema = new Schema({
   price: {
     type: String,
     required: true,
+  },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: Category,
   },
   imageURL: {
     type: String,

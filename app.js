@@ -10,7 +10,7 @@ require("dotenv").config();
 var indexRouter = require("./routes/index");
 const menuRouter = require("./routes/Menu");
 // const usersRouter = require("./routes/Users");
-// const categoryRouter = require("./models/Category");
+const categoryRouter = require("./routes/Category");
 
 var app = express();
 mongoodConnect = process.env.DB_CONNECTION;
@@ -32,6 +32,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/menu", menuRouter);
 // app.use("/users", usersRouter);
-// app.use("/category", categoryRouter);
+app.use("/category", categoryRouter);
 
 module.exports = app;

@@ -7,9 +7,12 @@ var logger = require("morgan");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+const jwt = require("jsonwebtoken");
+const privateKey = "secret";
+
 var indexRouter = require("./routes/index");
 const menuRouter = require("./routes/Menu");
-// const usersRouter = require("./routes/Users");
+const usersRouter = require("./routes/Users");
 const categoryRouter = require("./routes/Category");
 
 var app = express();
@@ -30,8 +33,19 @@ app.use("/public", express.static("public"));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/menu", menuRouter);
-// app.use("/users", usersRouter);
+app.use("/menu", validateUser, menuRouter);
+app.use("/users", usersRouter);
 app.use("/category", categoryRouter);
+
+function validateUser(req, res, next) {
+  jwt.verify(req.headers["x-token"], privateKey, (err, decoded) => {
+    if (err) {
+      res.json(err);
+    } else {
+      req.body.userId = decoded.id;
+      next();
+    }
+  });
+}
 
 module.exports = app;

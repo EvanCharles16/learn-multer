@@ -15,14 +15,15 @@ const newMenuSchema = new Schema({
     type: String,
     required: true,
   },
+  // Schema.Types.ObjectId utk terhubung untuk database lain
   category: {
     type: Schema.Types.ObjectId,
     ref: Category,
   },
-  imageURL: {
-    type: String,
-    required: true,
-  },
+  // imageURL: {
+  //   type: String,
+  //   required: true,
+  // },
 });
 
 module.exports = mongoose.model("menu", newMenuSchema);

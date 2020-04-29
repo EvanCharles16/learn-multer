@@ -7,7 +7,7 @@ module.exports = {
       detail: req.body.detail,
       price: req.body.price,
       category: req.body.category,
-      imageURL: req.file && req.file.path,
+      // imageURL: req.file && req.file.path,
     })
       .then((response) => res.json(response))
       .catch((err) => {

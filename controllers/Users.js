@@ -6,21 +6,29 @@ const privateKey = "secret";
 const validateRegister = require("./../validator/register");
 
 module.exports = {
-  create: (req, res, next) => {
+  register: (req, res, next) => {
     const { err, isValid } = validateRegister(req.body);
-    if (!isValid) {
-      return res.status(400).json(err);
-    }
-    User.create({
+    let obj = {
       fullName: req.body.fullName,
       email: req.body.email,
       address: req.body.address,
       password: req.body.password,
-    })
-      .then((response) => res.json(response))
-      .catch((err) => {
-        throw err;
-      });
+      confirmPassword: req.body.confirmPassword,
+    };
+    if (!isValid) {
+      return res.status(400).json(err);
+    }
+    User.findOne({ email: req.body.email }).then((user) => {
+      if (user) {
+        return res.status(400).json({ email: "Email already exist" });
+      } else {
+        return User.create(obj)
+          .then((response) => res.json(response))
+          .catch((err) => {
+            throw err;
+          });
+      }
+    });
   },
 
   authenticated: function (req, res, next) {
